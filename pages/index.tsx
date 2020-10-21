@@ -1,11 +1,12 @@
 import styled from 'styled-components';
-import {SimpleCard} from '../components/card';
+import {SimpleCard} from '../components/simple-card';
+import { LoginForm } from '../forms/login-form';
 
 export default function Home() {
   return (
     <Container>
       <SimpleCard>
-        <h1>Hi!</h1>
+        <LoginForm />
       </SimpleCard>
     </Container>
   )
