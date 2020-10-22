@@ -3,14 +3,18 @@ import { SimpleCard } from "./simple-card";
 
 type MenuItemProps = {
     icon?: any,
-    text?: string
+    text?: string,
+    onClick?: (event?: any) => void
+
 }
 
-export const MenuItem: FunctionComponent<MenuItemProps> = ({ icon, text }) => {
+export const MenuItem: FunctionComponent<MenuItemProps> = ({ icon, text, onClick }) => {
     return (
         <SimpleCard 
             width={16}
             height={12}
+            clickable
+            onClick={onClick}
         >
             <div>
                 { icon }

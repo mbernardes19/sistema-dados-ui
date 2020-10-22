@@ -1,23 +1,39 @@
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import { FunctionComponent } from 'react';
+import CardActionArea from '@material-ui/core/CardActionArea';
 
 type CardProps = {
     width?: number,
     height?: number,
     contentAlign?: 'center' | 'left' | 'right',
-    contentFlow?: 'row' | 'column'
+    contentFlow?: 'row' | 'column',
+    clickable?: boolean,
+    onClick?: (event?: any) => void
 }
 
-export const SimpleCard: FunctionComponent<CardProps> = ({ width, height, contentFlow, contentAlign, children }) =>
-    (
-        <Card raised style={{height: `${height}rem`, width: `${width}rem`, marginLeft: '2rem', marginRight: '2rem', padding: '1rem' }}>
-            <CardContent style={{display: 'flex', justifyContent: contentAlign, flexDirection: contentFlow, textAlign: contentAlign}}>
-                { children }
-            </CardContent>
-        </Card>
+
+export const SimpleCard: FunctionComponent<CardProps> = ({ width, height, contentFlow, contentAlign, clickable, onClick, children }) => {
+    const NonClickableCardContent = () => (
+        <CardContent style={{display: 'flex', justifyContent: contentAlign, flexDirection: contentFlow, textAlign: contentAlign, padding: '2rem'}}>
+            { children }
+        </CardContent>
+    );
+    
+    const ClickableCardContent = () => (
+        <CardActionArea>
+            <NonClickableCardContent />
+        </CardActionArea>
     );
 
+    return (
+        <Card onClick={onClick} raised style={{height: `${height}rem`, width: `${width}rem`, marginLeft: '2rem', marginRight: '2rem', cursor: clickable ? 'pointer' : '' }}>
+            {
+                clickable ? <ClickableCardContent /> : <NonClickableCardContent />
+            }
+        </Card>
+    );
+}
 SimpleCard.defaultProps = {
     height: 24,
     width: 20,
