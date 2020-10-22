@@ -1,9 +1,8 @@
 import { FunctionComponent } from "react";
 import { SimpleCard } from "./simple-card";
-import Icon from '@material-ui/core/Icon'
 
 type MenuItemProps = {
-    icon?: string,
+    icon?: any,
     text?: string
 }
 
@@ -14,7 +13,7 @@ export const MenuItem: FunctionComponent<MenuItemProps> = ({ icon, text }) => {
             height={12}
         >
             <div>
-                <Icon style={{color: '#66667B', fontSize: 100}} fontSize='inherit'>{ icon }</Icon>
+                { icon }
             </div>
             <p style={{marginBottom: 0, color: '#66667B', fontSize: 20}}>{ text }</p>
         </SimpleCard>
