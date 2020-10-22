@@ -15,14 +15,14 @@ export const LoginForm: FunctionComponent<FormProps> = () => {
     const onSubmit = data => console.log(data);
 
     return (
-        <Form onSubmit={handleSubmit(onSubmit)}>
+        <Form>
             <h1 style={{color: '#66667B', marginTop:'.5rem', fontWeight: 400, marginBottom: '2rem'}}>Acesse o sistema</h1>
             <div style={{display: 'grid', gridRowGap: '1rem'}}>
-                <TextInput name='email' label='Email' inputRef={register} />
+                <TextInput error={errors.email ? true : false} helperText={errors.email ? "Email em formato inválido" : ""} name='email' label='Email' inputRef={register({ pattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/})} />
                 <TextInput name='senha' label='Senha' type='password' inputRef={register} />
             </div>
             <div style={{display: 'grid', gridRowGap: '.5rem', marginTop: '2rem', marginBottom: '2rem', width: '100%'}}>
-                <PrimaryButton>Fazer login</PrimaryButton>
+                <PrimaryButton onClick={handleSubmit(onSubmit)}>Fazer login</PrimaryButton>
                 <SecondaryButton>Criar um cadastro</SecondaryButton>
             </div>
         </Form>

@@ -3,7 +3,7 @@ import { FunctionComponent } from 'react';
 import { makeStyles } from "@material-ui/core/styles";
 
 type TextInputProps = {
-    inputRef?: (instance: HTMLDivElement) => void
+    inputRef?: (instance?: any) => void
     label: string,
     name?: string,
     error?: boolean,
@@ -13,23 +13,23 @@ type TextInputProps = {
 
 const useStyles = makeStyles({
     root: {
-      "&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-        borderColor: "#2D2D2D"
-      },
       "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
         borderColor: "#2D2D2D"
-      },
-      "&:hover .MuiOutlinedInput-input": {
-        color: "#2D2D2D"
       },
       "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-input": {
         color: "#2D2D2D"
       },
-      "&:hover .MuiInputLabel-outlined": {
-        color: "#2D2D2D"
-      },
       "& .MuiInputLabel-outlined.Mui-focused": {
         color: "#2D2D2D"
+      },
+      "& .MuiOutlinedInput-root.Mui-error .MuiOutlinedInput-notchedOutline": {
+        borderColor: "#F44336"
+      },
+      "& .MuiInputLabel-outlined.Mui-error": {
+        color: "#F44336"
+      },
+      "& .MuiOutlinedInput-input": {
+        backgroundColor: '#F2F2F2'
       }
     }
   });
@@ -48,7 +48,7 @@ export const TextInput: FunctionComponent<TextInputProps> = ({ inputRef, name, l
         type={type}
         fullWidth
         variant='outlined'
-        style={{backgroundColor: '#F2F2F2', color: '#9F9FB0'}}
+        style={{ color: '#9F9FB0'}}
     />
     )
 }
