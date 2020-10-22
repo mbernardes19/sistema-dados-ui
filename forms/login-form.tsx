@@ -16,7 +16,7 @@ export const LoginForm: FunctionComponent<FormProps> = () => {
 
     return (
         <Form onSubmit={handleSubmit(onSubmit)}>
-            <h1 style={{color: '#66667B', fontWeight: 400, marginBottom: '2rem'}}>Acesse o sistema</h1>
+            <h1 style={{color: '#66667B', marginTop:'.5rem', fontWeight: 400, marginBottom: '2rem'}}>Acesse o sistema</h1>
             <div style={{display: 'grid', gridRowGap: '1rem'}}>
                 <TextInput name='email' label='Email' inputRef={register} />
                 <TextInput name='senha' label='Senha' type='password' inputRef={register} />
