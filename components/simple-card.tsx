@@ -11,7 +11,7 @@ type CardProps = {
 
 export const SimpleCard: FunctionComponent<CardProps> = ({ width, height, contentFlow, contentAlign, children }) =>
     (
-        <Card style={{height: `${height}rem`, width: `${width}rem`, marginLeft: '2rem', marginRight: '2rem', padding: '1rem' }}>
+        <Card raised style={{height: `${height}rem`, width: `${width}rem`, marginLeft: '2rem', marginRight: '2rem', padding: '1rem' }}>
             <CardContent style={{display: 'flex', justifyContent: contentAlign, flexDirection: contentFlow, textAlign: contentAlign}}>
                 { children }
             </CardContent>
@@ -20,7 +20,7 @@ export const SimpleCard: FunctionComponent<CardProps> = ({ width, height, conten
 
 SimpleCard.defaultProps = {
     height: 24,
-    width: 24,
+    width: 20,
     contentAlign: 'center',
     contentFlow: 'column'
 }
