@@ -35,7 +35,7 @@ export const SimpleCard: FunctionComponent<CardProps> = ({ width, height, conten
     );
 }
 SimpleCard.defaultProps = {
-    height: 24,
+    height: 25,
     width: 20,
     contentAlign: 'center',
     contentFlow: 'column'
