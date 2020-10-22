@@ -2,8 +2,8 @@ import React, { FunctionComponent } from "react";
 import { TextInput } from "../components/text-input";
 import { useForm } from 'react-hook-form';
 import styled from "styled-components";
-import { PrimaryButton } from "../components/primary-button";
-import { SecondaryButton } from "../components/secondary-button";
+import { PrimaryButton } from "../components/button/primary-button";
+import { SecondaryButton } from "../components/button/secondary-button";
 
 type FormProps = {
 

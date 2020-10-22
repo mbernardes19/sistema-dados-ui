@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import { SimpleCard } from "./simple-card";
+import { SimpleCard } from "../simple-card";
 
 type MenuItemProps = {
     icon?: any,

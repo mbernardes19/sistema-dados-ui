@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { HomeMenu } from '../components/home-menu';
+import { HomeMenu } from '../components/menu/home-menu';
 
 export default function Menu() {
   return (
