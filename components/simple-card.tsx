@@ -9,11 +9,13 @@ type CardProps = {
     contentAlign?: 'center' | 'left' | 'right',
     contentFlow?: 'row' | 'column',
     clickable?: boolean,
+    href?: string,
     onClick?: (event?: any) => void
 }
 
 
-export const SimpleCard: FunctionComponent<CardProps> = ({ width, height, contentFlow, contentAlign, clickable, onClick, children }) => {
+export const SimpleCard: FunctionComponent<CardProps> = ({ width, height, contentFlow, contentAlign, clickable, onClick, href, children }) => {
+    
     const NonClickableCardContent = () => (
         <CardContent style={{display: 'flex', justifyContent: contentAlign, flexDirection: contentFlow, textAlign: contentAlign, padding: '2rem'}}>
             { children }

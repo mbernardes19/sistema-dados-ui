@@ -12,12 +12,14 @@ export const HomeMenu: FunctionComponent<MenuProps> = ({ children }) => {
             <MenuItem
                 icon={<Search style={{fontSize: 100, color: '#66667B'}} />}
                 text="Consultar pedidos"
+                href='/'
                 onClick={() => console.log('click consulta')}
             />
             <br />
             <MenuItem
                 icon={<Update style={{fontSize: 100, color: '#66667B' }} />}
                 text="Atualizar dados"
+                href='/atualizar-dados'
                 onClick={() => console.log('click atualiza')}
             />
         </div>

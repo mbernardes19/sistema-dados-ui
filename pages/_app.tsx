@@ -1,4 +1,4 @@
-import App, { AppProps, AppContext} from 'next/app'
+import { AppProps } from 'next/app'
 import '../styles.css'
 
 function MyApp({ Component, pageProps }: AppProps) {
