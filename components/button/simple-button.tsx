@@ -1,7 +1,7 @@
 import { FunctionComponent } from "react"
 import Button from '@material-ui/core/Button';
 
-type ButtonProps = {
+export interface ButtonProps {
     color?: string,
     textColor?: string
     primary?: boolean
@@ -11,7 +11,7 @@ type ButtonProps = {
 export const SimpleButton: FunctionComponent<ButtonProps> = ({ children, color, textColor, primary, onClick }) => (
     <Button
         style={{backgroundColor: color, color: textColor}}
-        variant= {primary ? 'contained' : 'text'}
+        variant={primary ? 'contained' : 'text'}
         fullWidth
         onClick={onClick}
     >
