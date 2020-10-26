@@ -1,15 +1,44 @@
 import styled from 'styled-components';
 import { SimpleCard } from '../components/simple-card';
-import { CloudUpload, InsertDriveFile } from '@material-ui/icons'
+import { CloudUpload, InsertDriveFile, CheckCircle } from '@material-ui/icons'
 import { PrimaryUploadButton } from '../components/button/primary-upload-button';
 import { useState } from 'react';
 import { PrimaryButton } from '../components/button/primary-button';
 import { SecondaryButton } from '../components/button/secondary-button';
+import ApiService from '../services/api';
+import { CircularProgress } from '@material-ui/core';
 
 export default function AtualizarDados() {
   const [file, setFile] = useState<File | undefined>();
+  const [isUpdateSuccessful, setIsUpdateSuccessful] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const UploadFile = () => (
+  const handleSystemUpdate = async () => {
+    try {
+      setLoading(true);
+      const resp = await ApiService.updateSystemData(file);
+      if (resp.status === 200) {
+        setLoading(false);
+        setIsUpdateSuccessful(true);
+      } else {
+        setLoading(false);
+        setIsUpdateSuccessful(false);
+      }
+    } catch (err) {
+      setLoading(false);
+      setIsUpdateSuccessful(false);
+
+    }
+  }
+
+  const LoadingScreen = () => (
+    <>
+      <CircularProgress />
+      <p>Atualizando o sistema...</p>
+    </>
+  )
+
+  const UploadFileScreen = () => (
     <>
       <div>
         <CloudUpload style={{fontSize: 80, color: '#66667B'}}/>
@@ -19,15 +48,25 @@ export default function AtualizarDados() {
     </>
   )
 
-  const ConfirmUpload = () => (
+  const ConfirmUploadScreen = () => (
     <>
       <div style={{ display: 'flex', flexDirection: 'row'}}>
         <InsertDriveFile style={{fontSize: 80, color: '#66667B'}}/>
         <p style={{textAlign: 'left'}}>{ file.name }</p>
       </div>
       <p>Deseja atualizar o sistema a partir da planilha selecionada?</p>
-      <PrimaryButton>Sim, atualize o sistema</PrimaryButton>
+      <PrimaryButton onClick={handleSystemUpdate}>Sim, atualize o sistema</PrimaryButton>
       <SecondaryButton onClick={() => setFile(undefined)}>Não, escolher outra planilha</SecondaryButton>
+    </>
+  )
+
+  const UpdateSuccessfulScreen = () => (
+    <>
+      <div style={{ display: 'flex', flexDirection: 'row'}}>
+        <CheckCircle style={{fontSize: 80, color: '#66667B'}}/>
+      </div>
+      <p>Sistema atualizado com sucesso!</p>
+      <PrimaryButton onClick={handleSystemUpdate}>Voltar à home</PrimaryButton>
     </>
   )
 
@@ -35,7 +74,11 @@ export default function AtualizarDados() {
     <Container>
         <SimpleCard>
           {
-            file === undefined ? <UploadFile /> : <ConfirmUpload />
+            loading ? <LoadingScreen /> :
+            isUpdateSuccessful ?
+              <UpdateSuccessfulScreen />
+            :
+              file === undefined && !isUpdateSuccessful ? <UploadFileScreen /> : <ConfirmUploadScreen />
           }
         </SimpleCard>
     </Container>
