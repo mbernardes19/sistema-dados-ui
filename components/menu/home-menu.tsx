@@ -34,7 +34,7 @@ export const HomeMenu: FunctionComponent<MenuProps> = ({ children }) => {
     }
 
     return (
-        <div style={{ margin: '0 auto', overflow: 'scroll', display: 'flex', alignItems: 'center', justifyContent: 'center', flexFlow: 'row wrap'}}>
+        <div style={{ margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'center', flexFlow: 'row wrap'}}>
             {
                 menu.map(men => (
                     <MenuItem
