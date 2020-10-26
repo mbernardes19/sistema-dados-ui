@@ -29,7 +29,7 @@ export const SimpleCard: FunctionComponent<CardProps> = ({ width, height, conten
     );
 
     return (
-        <Card onClick={onClick} raised style={{height: `${height}rem`, width: `${width}rem`, marginLeft: '2rem', marginRight: '2rem', cursor: clickable ? 'pointer' : '' }}>
+        <Card onClick={onClick} raised style={{minHeight: `${height}rem`, maxHeight: `${height+5}rem`, minWidth: `${width}rem`, maxWidth: `${width}rem`, marginLeft: '2rem', marginRight: '2rem', cursor: clickable ? 'pointer' : '' }}>
             {
                 clickable ? <ClickableCardContent /> : <NonClickableCardContent />
             }
@@ -37,7 +37,7 @@ export const SimpleCard: FunctionComponent<CardProps> = ({ width, height, conten
     );
 }
 SimpleCard.defaultProps = {
-    height: 25,
+    height: 24,
     width: 20,
     contentAlign: 'center',
     contentFlow: 'column'
