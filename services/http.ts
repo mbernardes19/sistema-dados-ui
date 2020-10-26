@@ -4,11 +4,10 @@ export default class HttpService {
     private baseUrl: string;
 
     constructor() {
-        this.baseUrl = process.env.NODE_ENV === 'production' ? 'http://' : 'http://localhost:4000';
+        this.baseUrl = process.env.NODE_ENV === 'production' ? 'http://localhost:4000' : 'http://localhost:4000';
     }
 
-    async get(path: string, headers?: string) {
-        console.log(headers);
+    async get(path: string, headers?: any) {
         return await axios.get(this.baseUrl + path, {
             headers: headers
         });

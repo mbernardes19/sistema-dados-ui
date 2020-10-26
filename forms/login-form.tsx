@@ -1,10 +1,11 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useState, useContext } from "react";
 import { TextInput } from "../components/text-input";
 import { useForm } from 'react-hook-form';
 import styled from "styled-components";
 import { PrimaryButton } from "../components/button/primary-button";
 import ApiService from "../services/api";
 import { useRouter } from "next/dist/client/router";
+import { UserContext } from "../services/context/user-context-provider";
 
 type FormProps = {
 
@@ -14,6 +15,7 @@ export const LoginForm: FunctionComponent<FormProps> = () => {
     const { register, handleSubmit, errors } = useForm();
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<boolean>(false);
+    const {user, storeUser} = useContext(UserContext);
     const router = useRouter();
 
     const onSubmit = async data => {
@@ -21,6 +23,9 @@ export const LoginForm: FunctionComponent<FormProps> = () => {
         setLoading(true);
         try {
             const response = await ApiService.login({ email: data.email, password: data.password });
+            const resp2 = await ApiService.getUser(response.data.access_token)
+            storeUser({ ...resp2.data, ...response.data });
+            sessionStorage.setItem('user_token', response.data.access_token)
             router.push('/menu');
         } catch (err) {
             setError(true);

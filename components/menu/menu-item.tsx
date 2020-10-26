@@ -13,7 +13,7 @@ type MenuItemProps = {
 export const MenuItem: FunctionComponent<MenuItemProps> = ({ icon, text, href, onClick }) => {
     return (
         <Link href={href} passHref>
-            <SimpleCard 
+            <SimpleCard
                 width={16}
                 height={12}
                 clickable

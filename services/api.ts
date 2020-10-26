@@ -36,4 +36,12 @@ export default class ApiService {
         })
     }
 
+    static async getUser(accessToken: string) {
+        return await this.httpService.get('/user', { 'Authorization': `Bearer ${accessToken}`})
+    }
+
+    static async getMenu(accessToken: string) {
+        return await this.httpService.get('/menu', { 'Authorization': `Bearer ${accessToken}`})
+    }
+
 }

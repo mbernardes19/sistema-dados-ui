@@ -2,16 +2,29 @@ import styled from 'styled-components';
 import { SimpleCard } from '../components/simple-card';
 import { CloudUpload, InsertDriveFile, CheckCircle } from '@material-ui/icons'
 import { PrimaryUploadButton } from '../components/button/primary-upload-button';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { PrimaryButton } from '../components/button/primary-button';
 import { SecondaryButton } from '../components/button/secondary-button';
 import ApiService from '../services/api';
 import { CircularProgress } from '@material-ui/core';
+import useAdminSessionCheck from '../hooks/useAdminSessionCheck';
+import { useRouter } from 'next/router';
+import { GetServerSideProps } from 'next';
+import useSessionCheck from '../hooks/useSessionCheck';
 
-export default function AtualizarDados() {
+export default function AtualizarDados({ authorized }) {
   const [file, setFile] = useState<File | undefined>();
   const [isUpdateSuccessful, setIsUpdateSuccessful] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const router = useRouter()
+
+  // const {isLoggedOut, user} = useSessionCheck();
+
+  useEffect(() => {
+    if (!authorized) {
+      router.push('/menu')
+    }
+  }, [])
 
   const handleSystemUpdate = async () => {
     try {
@@ -83,6 +96,20 @@ export default function AtualizarDados() {
         </SimpleCard>
     </Container>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  let response;
+  let authorized;
+  try {
+    response = await ApiService.getMenu(sessionStorage.getItem('user_token'))
+    const allowedRoutes: string[] = response.data.map(href => href);
+    authorized = allowedRoutes.includes('/atualizar-dados');
+  } catch (err) {
+    authorized = false;
+  }
+  
+  return {props: { authorized }}
 }
 
 const Container = styled.div`

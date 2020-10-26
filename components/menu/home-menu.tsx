@@ -1,27 +1,49 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, useEffect, useContext, useState } from "react";
 import { MenuItem } from "./menu-item";
-import { Search, Update } from '@material-ui/icons'
+import { Search, Update, PersonAdd } from '@material-ui/icons'
+import ApiService from "../../services/api";
 
 type MenuProps = {
 
 }
 
 export const HomeMenu: FunctionComponent<MenuProps> = ({ children }) => {
+    const [menu, setMenu] = useState([]);
+
+    useEffect(() => {
+        async function getMenu() {
+            try {
+                const response = await ApiService.getMenu(sessionStorage.getItem('user_token'))
+                setMenu(response.data);
+            } catch (err) {
+                
+            }
+        }
+        getMenu();
+    }, [])
+
+    const selectIcon = (icon) => {
+        switch(icon) {
+            case 'SEARCH':
+                return <Search style={{fontSize: 100, color: '#66667B'}} />
+            case 'PERSON_ADD':
+                return <PersonAdd style={{fontSize: 100, color: '#66667B' }} />
+            case 'UPDATE':
+                return <Update style={{fontSize: 100, color: '#66667B' }} />
+        }
+    }
+
     return (
-        <div style={{display: 'flex', flexDirection: 'column'}}>
-            <MenuItem
-                icon={<Search style={{fontSize: 100, color: '#66667B'}} />}
-                text="Consultar pedidos"
-                href='/'
-                onClick={() => console.log('click consulta')}
-            />
-            <br />
-            <MenuItem
-                icon={<Update style={{fontSize: 100, color: '#66667B' }} />}
-                text="Atualizar dados"
-                href='/atualizar-dados'
-                onClick={() => console.log('click atualiza')}
-            />
+        <div style={{ margin: '0 auto', overflow: 'scroll', display: 'flex', alignItems: 'center', justifyContent: 'center', flexFlow: 'row wrap'}}>
+            {
+                menu.map(men => (
+                    <MenuItem
+                        icon={selectIcon(men.id)}
+                        text={men.text}
+                        href={men.href}
+                    />
+                ))
+            }
         </div>
     )
 }
