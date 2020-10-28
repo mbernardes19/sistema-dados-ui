@@ -6,7 +6,7 @@ export default function CadastrarUsuario({}) {
     return (
         <Container>
           <SimpleCard
-            height={28}
+            height={30}
           >
              <RegisterForm />
           </SimpleCard>
