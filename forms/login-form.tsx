@@ -16,7 +16,6 @@ export const LoginForm: FunctionComponent<FormProps> = () => {
     const { register, handleSubmit, errors } = useForm();
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<boolean>(false);
-    const {user, storeUser} = useContext(UserContext);
     const router = useRouter();
 
     const onSubmit = async data => {
@@ -25,7 +24,6 @@ export const LoginForm: FunctionComponent<FormProps> = () => {
         try {
             const response = await ApiService.login({ email: data.email, password: data.password });
             const resp2 = await ApiService.getUser(response.data.access_token)
-            storeUser({ ...resp2.data, ...response.data });
             Cookies.set('user_token', response.data.access_token)
             router.push('/menu');
         } catch (err) {
