@@ -33,9 +33,10 @@ export default class ApiService {
     }
 
     static async register(registrationCredentials: RegistrationCredentials) {
-        return await this.httpService.post('/register', registrationCredentials, {
+        const response = await this.httpService.post('/register', registrationCredentials, {
             'Content-Type': 'application/json'
         })
+        return response.data;
     }
 
     static async getUser(accessToken: string) {

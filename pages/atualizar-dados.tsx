@@ -88,12 +88,9 @@ export default function AtualizarDados({ authorized, authenticated }) {
     </>
   )
 
-  if (!authorized) {
+  if (!authorized || !authenticated) {
     return (
-      <>
-      <div>Você não tem permissão para acessar esta página</div>
-      <div>Redirecionando</div>
-      </>
+      <div></div>
     )
   }
 
@@ -122,7 +119,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 
   try {
     response = await ApiService.getUser(token)
-    authenticated = true;
+    authenticated = response.data.id ? true : false;
   } catch (err) {
     authenticated = false;
   }

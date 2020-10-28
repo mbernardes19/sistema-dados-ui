@@ -20,7 +20,7 @@ export default function Menu({ authorized }) {
 
   if (!authorized) {
     return (
-      <div style={{color: 'white'}}>Redirecionando</div>
+      <div></div>
     )
   }
 
