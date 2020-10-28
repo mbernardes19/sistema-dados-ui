@@ -1,11 +1,6 @@
 import { FunctionComponent } from "react"
-import { SimpleButton } from "./simple-button";
+import { SimpleButton, ButtonProps } from "./simple-button";
 
-type ButtonProps = {
-    color?: string,
-    textColor?: string,
-    onClick?: (arg?: any) => void
-}
 
 export const SecondaryButton: FunctionComponent<ButtonProps> = ({ children, onClick }) => (
     <SimpleButton
