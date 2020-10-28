@@ -4,7 +4,7 @@ export default class HttpService {
     private baseUrl: string;
 
     constructor() {
-        this.baseUrl = process.env.NODE_ENV === 'production' ? 'http://localhost:4000' : 'http://localhost:4000';
+        this.baseUrl = process.env.NODE_ENV === 'production' ? 'http://31.220.63.12' : 'http://localhost:4000';
     }
 
     async get(path: string, headers?: any) {
