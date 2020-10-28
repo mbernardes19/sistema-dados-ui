@@ -5,9 +5,11 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { CircularProgress } from '@material-ui/core';
 import ApiService from '../services/api';
-import useSessionCheck from '../hooks/useSessionCheck';
+import { GetServerSideProps } from 'next';
+import Cookies from 'js-cookie';
+import Cookies2 from 'cookies'
 
-export default function Home() {
+export default function Home({ authorized }) {
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -19,17 +21,15 @@ export default function Home() {
     </>
   )
 
-  const {isLoggedOut, user} = useSessionCheck();
-
   useEffect(() => {
-    console.log(user)
-     console.log(isLoggedOut)
-    if (!isLoggedOut) {
+     console.log(authorized)
+    if (authorized) {
       setLoading(true);
+      router.push('/menu')
     } else {
       setLoading(false)
     }
-  }, [isLoggedOut, user])
+  }, [])
 
   return (
     <Container>
@@ -49,3 +49,18 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
 `
+
+export const getServerSideProps: GetServerSideProps = async ({req, res}) => {
+  let response;
+  let authorized;
+  try {
+    const cookies = new Cookies2(req, res)
+    const token = cookies.get('user_token')
+    response = await ApiService.getUser(token)
+    console.log(response.data);
+    authorized = response.data ? true : false;
+  } catch (err) {
+    authorized = false;
+  }
+    return {props: { authorized }}
+}

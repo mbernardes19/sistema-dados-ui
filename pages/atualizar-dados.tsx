@@ -8,21 +8,26 @@ import { SecondaryButton } from '../components/button/secondary-button';
 import ApiService from '../services/api';
 import { CircularProgress } from '@material-ui/core';
 import useAdminSessionCheck from '../hooks/useAdminSessionCheck';
-import { useRouter } from 'next/router';
+import { useRouter, Router } from 'next/router';
 import { GetServerSideProps } from 'next';
 import useSessionCheck from '../hooks/useSessionCheck';
+import Cookies from 'cookies'
 
-export default function AtualizarDados({ authorized }) {
+
+export default function AtualizarDados({ authorized, authenticated }) {
   const [file, setFile] = useState<File | undefined>();
   const [isUpdateSuccessful, setIsUpdateSuccessful] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter()
 
-  // const {isLoggedOut, user} = useSessionCheck();
-
   useEffect(() => {
+    if (!authenticated) {
+      router.push('/');
+      return;
+    }
     if (!authorized) {
-      router.push('/menu')
+      router.push('/menu');
+      return;
     }
   }, [])
 
@@ -83,6 +88,15 @@ export default function AtualizarDados({ authorized }) {
     </>
   )
 
+  if (!authorized) {
+    return (
+      <>
+      <div>Você não tem permissão para acessar esta página</div>
+      <div>Redirecionando</div>
+      </>
+    )
+  }
+
   return (
     <Container>
         <SimpleCard>
@@ -98,18 +112,33 @@ export default function AtualizarDados({ authorized }) {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   let response;
+  let response2;
   let authorized;
+  let authenticated;
+  const cookies = new Cookies(req, res);
+  const token = cookies.get('user_token')
+
   try {
-    response = await ApiService.getMenu(sessionStorage.getItem('user_token'))
-    const allowedRoutes: string[] = response.data.map(href => href);
+    response = await ApiService.getUser(token)
+    authenticated = true;
+  } catch (err) {
+    authenticated = false;
+  }
+  
+  try {
+    response2 = await ApiService.getMenu(token)
+    const allowedRoutes: string[] = response2.data.map(menu => menu.href);
+    console.log('ALLOWED ROUTES', allowedRoutes)
     authorized = allowedRoutes.includes('/atualizar-dados');
   } catch (err) {
     authorized = false;
   }
-  
-  return {props: { authorized }}
+
+  console.log('AUTHENTICATED', authenticated, 'AUTHORIZED', authorized)
+
+  return {props: { authorized, authenticated }}
 }
 
 const Container = styled.div`

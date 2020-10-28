@@ -2,6 +2,7 @@ import { FunctionComponent, useEffect, useContext, useState } from "react";
 import { MenuItem } from "./menu-item";
 import { Search, Update, PersonAdd } from '@material-ui/icons'
 import ApiService from "../../services/api";
+import Cookies from 'js-cookie'
 
 type MenuProps = {
 
@@ -13,7 +14,7 @@ export const HomeMenu: FunctionComponent<MenuProps> = ({ children }) => {
     useEffect(() => {
         async function getMenu() {
             try {
-                const response = await ApiService.getMenu(sessionStorage.getItem('user_token'))
+                const response = await ApiService.getMenu(Cookies.get('user_token'))
                 setMenu(response.data);
             } catch (err) {
                 

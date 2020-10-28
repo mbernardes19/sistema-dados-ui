@@ -6,6 +6,7 @@ import { PrimaryButton } from "../components/button/primary-button";
 import ApiService from "../services/api";
 import { useRouter } from "next/dist/client/router";
 import { UserContext } from "../services/context/user-context-provider";
+import Cookies from 'js-cookie'
 
 type FormProps = {
 
@@ -25,7 +26,7 @@ export const LoginForm: FunctionComponent<FormProps> = () => {
             const response = await ApiService.login({ email: data.email, password: data.password });
             const resp2 = await ApiService.getUser(response.data.access_token)
             storeUser({ ...resp2.data, ...response.data });
-            sessionStorage.setItem('user_token', response.data.access_token)
+            Cookies.set('user_token', response.data.access_token)
             router.push('/menu');
         } catch (err) {
             setError(true);
