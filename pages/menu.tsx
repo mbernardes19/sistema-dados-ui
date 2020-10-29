@@ -6,9 +6,9 @@ import ApiService from '../services/api';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Cookies from 'cookies'
+import CookiesJS from 'js-cookie';
 
 export default function Menu({ authorized }) {
-  // const {isLoggedOut, user} = useSessionCheck();
   const router = useRouter();
 
   useEffect(() => {
@@ -25,9 +25,17 @@ export default function Menu({ authorized }) {
   }
 
   return (
+    <>
+    <div style={{display: 'flex', flexDirection: 'row'}}>
+      <a onClick={() => {
+        CookiesJS.remove('user_token');
+        router.push('/')
+        }} style={{marginLeft: 'auto', color: '#fff', cursor: 'pointer', paddingRight: '1rem'}}>Sair</a>
+    </div>
     <Container>
       <HomeMenu />
     </Container>
+    </>
   )
 }
 
