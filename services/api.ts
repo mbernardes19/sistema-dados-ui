@@ -1,5 +1,6 @@
 import HttpService from "./http";
 import Enterprise from "../model/enterprise";
+import Order from "../model/order";
 
 type LoginCredentials = {
     email: string,
@@ -50,6 +51,11 @@ export default class ApiService {
     static async getAllEnterprises(accessToken: string): Promise<Enterprise[]> {
         const response = await this.httpService.get('/enterprise', { 'Authorization': `Bearer ${accessToken}`})
         return response.data as Enterprise[]
+    }
+
+    static async getUserOrders(accessToken: string): Promise<Order[]> {
+        const response = await this.httpService.get('/user/orders', { 'Authorization': `Bearer ${accessToken}`})
+        return response.data as Order[]
     }
 
 }
