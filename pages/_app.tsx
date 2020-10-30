@@ -5,6 +5,8 @@ import { UserContextProvider } from '../services/context/user-context-provider'
 import { Router } from 'next/router';
 import NProgress from 'nprogress';
 
+NProgress.configure({ showSpinner: false })
+
 Router.events.on('routeChangeStart', url => {
   console.log(`Loading ${url}`);
   NProgress.start();
