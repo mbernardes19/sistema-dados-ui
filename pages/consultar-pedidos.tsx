@@ -9,6 +9,7 @@ import { OrderCard } from "../components/order-card"
 import { useEffect, useState } from "react"
 import Order from "../model/order"
 import { useRouter } from "next/router"
+import { ArrowBack } from "@material-ui/icons"
 
 
 export default function ConsultarPedidos({authenticated, authorized, user}) {
@@ -31,11 +32,14 @@ export default function ConsultarPedidos({authenticated, authorized, user}) {
 
     return (
       <>
-        <div style={{display: 'flex', flexDirection: 'row'}}>
+        <div style={{display: 'flex', marginBottom: '1rem', flexDirection: 'row'}}>
+        <a onClick={() => router.back()}>
+          <ArrowBack style={{fontSize: 30, paddingLeft: '.3rem', color: 'white' }} />
+        </a>
       <a onClick={() => {
         CookiesJS.remove('user_token');
         router.push('/')
-        }} style={{marginLeft: 'auto', color: '#fff', cursor: 'pointer', paddingRight: '1rem'}}>Sair</a>
+        }} style={{marginLeft: 'auto', color: '#fff', cursor: 'pointer', paddingTop: '.3rem', paddingRight: '1rem'}}>Sair</a>
         </div>
         <Container>
           <div style={{width: '100%', display: 'flex', flexFlow: 'column', justifyContent

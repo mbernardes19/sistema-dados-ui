@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { HomeMenu } from '../components/menu/home-menu';
-import useSessionCheck from '../hooks/useSessionCheck';
 import { GetServerSideProps } from 'next';
 import ApiService from '../services/api';
 import { useEffect } from 'react';
@@ -26,11 +25,11 @@ export default function Menu({ authorized }) {
 
   return (
     <>
-    <div style={{display: 'flex', flexDirection: 'row'}}>
+    <div style={{display: 'flex', marginBottom: '1rem', flexDirection: 'row'}}>
       <a onClick={() => {
         CookiesJS.remove('user_token');
         router.push('/')
-        }} style={{marginLeft: 'auto', color: '#fff', cursor: 'pointer', paddingRight: '1rem'}}>Sair</a>
+        }} style={{marginLeft: 'auto', color: '#fff', cursor: 'pointer', paddingTop: '.3rem', paddingRight: '1rem'}}>Sair</a>
     </div>
     <Container>
       <HomeMenu />

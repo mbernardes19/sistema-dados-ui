@@ -1,17 +1,16 @@
 import styled from 'styled-components';
 import { SimpleCard } from '../components/simple-card';
-import { CloudUpload, InsertDriveFile, CheckCircle } from '@material-ui/icons'
+import { CloudUpload, InsertDriveFile, CheckCircle, ArrowBack } from '@material-ui/icons'
 import { PrimaryUploadButton } from '../components/button/primary-upload-button';
 import { useState, useEffect } from 'react';
 import { PrimaryButton } from '../components/button/primary-button';
 import { SecondaryButton } from '../components/button/secondary-button';
 import ApiService from '../services/api';
 import { CircularProgress } from '@material-ui/core';
-import useAdminSessionCheck from '../hooks/useAdminSessionCheck';
 import { useRouter, Router } from 'next/router';
 import { GetServerSideProps } from 'next';
-import useSessionCheck from '../hooks/useSessionCheck';
 import Cookies from 'cookies'
+import CookiesJS from 'js-cookie';
 
 
 export default function AtualizarDados({ authorized, authenticated }) {
@@ -95,6 +94,16 @@ export default function AtualizarDados({ authorized, authenticated }) {
   }
 
   return (
+    <>
+            <div style={{display: 'flex', marginBottom: '1rem', flexDirection: 'row'}}>
+        <a onClick={() => router.back()}>
+          <ArrowBack style={{fontSize: 30, paddingLeft: '.3rem', color: 'white' }} />
+        </a>
+      <a onClick={() => {
+        CookiesJS.remove('user_token');
+        router.push('/')
+        }} style={{marginLeft: 'auto', color: '#fff', cursor: 'pointer', paddingTop: '.3rem', paddingRight: '1rem'}}>Sair</a>
+        </div>
     <Container>
         <SimpleCard>
           {
@@ -106,6 +115,7 @@ export default function AtualizarDados({ authorized, authenticated }) {
           }
         </SimpleCard>
     </Container>
+    </>
   )
 }
 
