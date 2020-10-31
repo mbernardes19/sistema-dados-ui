@@ -13,7 +13,6 @@ export const OrderCardField: FunctionComponent<OrderCardFieldProps> = ({label, c
         let formattedContent = ''
         if (content instanceof Date) {
             formattedContent = format(content, 'dd/MM/yyyy')
-            console.log('DATE', content)
         } else {
             formattedContent = content
         }

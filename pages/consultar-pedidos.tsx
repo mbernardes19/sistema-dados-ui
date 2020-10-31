@@ -1,28 +1,59 @@
-import { SimpleCard } from "../components/simple-card"
-import { RegisterForm } from "../forms/register-form"
 import styled from "styled-components"
 import { GetServerSideProps } from "next"
 import ApiService from "../services/api"
 import Cookie from 'cookies';
 import CookiesJS from 'js-cookie';
 import { OrderCard } from "../components/order-card"
-import { useEffect, useState } from "react"
+import { useEffect, useState, ChangeEvent } from "react"
 import Order from "../model/order"
 import { useRouter } from "next/router"
 import { ArrowBack } from "@material-ui/icons"
+import { OrderFilter } from "../components/order-filter";
+import Enterprise from "../model/enterprise";
 
 
 export default function ConsultarPedidos({authenticated, authorized, user}) {
   const [orders, setOrders] = useState<Order[]>([]);
+  const [enterprises, setEnterprises] = useState<Enterprise[]>([])
+  const [selectedEnterprise, setSelectedEnterprise] = useState<Enterprise>();
   const router = useRouter();
 
   useEffect(() => {
-    async function getOrders() {
+    async function getAllEnterprises() {
+      const allEnterprises = await ApiService.getAllEnterprises(CookiesJS.get('user_token'));
+      setEnterprises(allEnterprises)
+    }
+    async function getUserOrders() {
       const orders = await ApiService.getUserOrders(CookiesJS.get('user_token'));
       setOrders(orders);
     }
-    getOrders()
+    if (authorized) {
+      getAllEnterprises();
+    } else {
+      console.log('orders')
+      getUserOrders();
+    }
   }, [])
+
+  useEffect(() => {
+    console.log(selectedEnterprise)
+    async function getOrdersFromEnterprise() {
+      if (selectedEnterprise as any === 'Todas as empresas') {
+      const orders = await ApiService.getEnterpriseOrders(CookiesJS.get('user_token'))
+      setOrders(orders.sort((a, b) => (a.enterprise.name < b.enterprise.name) ? -1 : (a.enterprise.name > b.enterprise.name) ? 1 : 0))
+    } else {
+      const orders = await ApiService.getEnterpriseOrders(CookiesJS.get('user_token'), selectedEnterprise as any)
+      setOrders(orders);
+    }
+    }
+    if (selectedEnterprise) {
+      getOrdersFromEnterprise();
+    }
+  }, [selectedEnterprise])
+
+  const handleChange = (event: React.ChangeEvent<{value: Enterprise}>) => {
+    setSelectedEnterprise(event.target.value);
+  }
 
   if (!authenticated) {
     return (
@@ -42,11 +73,14 @@ export default function ConsultarPedidos({authenticated, authorized, user}) {
         }} style={{marginLeft: 'auto', color: '#fff', cursor: 'pointer', paddingTop: '.3rem', paddingRight: '1rem'}}>Sair</a>
         </div>
         <Container>
+          {
+            authorized ? <OrderFilter selected={selectedEnterprise} onChange={handleChange} enterprises={enterprises} /> : <></>
+          }
           <div style={{width: '100%', display: 'flex', flexFlow: 'column', justifyContent
           : 'center', alignItems: 'center', margin: '0 auto'}}>
           {
             orders && orders.map(order => (
-              <OrderCard order={order} user={user} />
+              <OrderCard order={order} />
             ))
           }
           </div>
