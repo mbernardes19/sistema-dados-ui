@@ -24,6 +24,9 @@ export const OrderCardField: FunctionComponent<OrderCardFieldProps> = ({label, c
             case 'Faturado':
                 color = '#27C200'
                 break;
+            case 'Parcialmente faturado':
+                color = '#156b00'
+                break;
         }
         if (emphasis) {
             return (<EmphasisContent style={{color}}>{formattedContent.toUpperCase()}</EmphasisContent>)
