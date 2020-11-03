@@ -1,4 +1,4 @@
-import { FunctionComponent, MouseEvent } from "react"
+import { FunctionComponent, MouseEvent, CSSProperties } from "react"
 import Button from '@material-ui/core/Button';
 
 export interface ButtonProps {
@@ -6,11 +6,12 @@ export interface ButtonProps {
     textColor?: string
     primary?: boolean
     onClick?: (event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => void
+    style?: CSSProperties
 }
 
-export const SimpleButton: FunctionComponent<ButtonProps> = ({ children, color, textColor, primary, onClick }) => (
+export const SimpleButton: FunctionComponent<ButtonProps> = ({ children, color, textColor, primary, onClick, style }) => (
     <Button
-        style={{backgroundColor: color, color: textColor}}
+        style={{backgroundColor: color, color: textColor, ...style}}
         variant={primary ? 'contained' : 'text'}
         fullWidth
         onClick={onClick}

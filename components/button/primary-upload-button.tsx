@@ -7,7 +7,7 @@ interface UploadButtonProps extends ButtonProps {
     onFileSelect?: (file: File) => void
 }
 
-export const PrimaryUploadButton: FunctionComponent<UploadButtonProps> = ({ children, onFileSelect }) => {
+export const PrimaryUploadButton: FunctionComponent<UploadButtonProps> = ({ children, onFileSelect, style }) => {
     const inputFile = useRef<HTMLInputElement>(null);
 
     return (
@@ -19,9 +19,15 @@ export const PrimaryUploadButton: FunctionComponent<UploadButtonProps> = ({ chil
                 inputFile.current.click()
                 inputFile.current.addEventListener('change',(ev: Event) => onFileSelect((ev.target as HTMLInputElement).files[0]))
             }}
+            style={style}
         >
             { children }
-            <input type='file' ref={inputFile} style={{display: 'none'}} />
+            <input 
+                type='file'
+                ref={inputFile}
+                accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                style={{display: 'none'}}
+            />
         </SimpleButton>
     )
 }
