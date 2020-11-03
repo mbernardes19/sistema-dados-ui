@@ -23,7 +23,7 @@ export const RegisterForm: FunctionComponent<FormProps> = () => {
     const [error, setError] = useState<boolean>(false);
     const {user, storeUser} = useContext(UserContext);
     const [enterprises, setEnterprises] = useState<EnterpriseOptionType[]>();
-    const [enterpriseOption, setEnterpriseOption] = useState<EnterpriseOptionType>()
+    const [enterpriseOption, setEnterpriseOption] = useState<EnterpriseOptionType>({enterprise: {name: ''}})
     const [errorMessage, setErrorMessage] = useState<string>('');
     const router = useRouter();
     const [autoCompleteInputValue, setAutoCompleteInputValue] = useState<string>('')
@@ -105,6 +105,7 @@ export const RegisterForm: FunctionComponent<FormProps> = () => {
                         }
                     }}
                     onInputChange={(event, value) => {
+                        setEnterpriseOption({ enterprise: {name: value}})
                         setAutoCompleteInputValue(value)
                     }}
                     filterOptions={(options, params) => {

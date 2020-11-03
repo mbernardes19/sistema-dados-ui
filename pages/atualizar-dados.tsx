@@ -34,7 +34,7 @@ export default function AtualizarDados({ authorized, authenticated }) {
     try {
       setLoading(true);
       const resp = await ApiService.updateSystemData(file);
-      if (resp.status === 200) {
+      if (resp.status === 201 || resp.status === 200) {
         setLoading(false);
         setIsUpdateSuccessful(true);
       } else {
@@ -49,42 +49,44 @@ export default function AtualizarDados({ authorized, authenticated }) {
   }
 
   const LoadingScreen = () => (
-    <>
-      <CircularProgress />
+    <div style={{padding: '2rem'}}>
+      <div>
+        <CircularProgress size='3rem' style={{color: '#66667B'}} />
+      </div>
       <p>Atualizando o sistema...</p>
-    </>
+    </div>
   )
 
   const UploadFileScreen = () => (
-    <>
+    <div style={{padding: '2rem'}}>
       <div>
         <CloudUpload style={{fontSize: 80, color: '#66667B'}}/>
       </div>
-      <p>Clique abaixo para escolher uma planilha para atualizar o sistema</p>
+      <p style={{color: '#66667B', marginTop: '.5rem', marginBottom: '2.3rem'}}>Clique abaixo para escolher uma planilha para atualizar o sistema</p>
       <PrimaryUploadButton onFileSelect={file => setFile(file)}> Escolher planilha </PrimaryUploadButton>
-    </>
+    </div>
   )
 
   const ConfirmUploadScreen = () => (
-    <>
+    <div style={{padding: '2rem'}}>
       <div style={{ display: 'flex', flexDirection: 'row'}}>
         <InsertDriveFile style={{fontSize: 80, color: '#66667B'}}/>
-        <p style={{textAlign: 'left'}}>{ file.name }</p>
+        <p style={{marginTop: '2rem', marginLeft: '.5rem', textAlign: 'left'}}>{ file.name }</p>
       </div>
-      <p>Deseja atualizar o sistema a partir da planilha selecionada?</p>
+      <p style={{color: '#66667B', marginTop: '2rem', marginBottom: '2.3rem'}}>Deseja atualizar o sistema a partir da planilha selecionada?</p>
       <PrimaryButton onClick={handleSystemUpdate}>Sim, atualize o sistema</PrimaryButton>
-      <SecondaryButton onClick={() => setFile(undefined)}>Não, escolher outra planilha</SecondaryButton>
-    </>
+      <SecondaryButton style={{marginTop: '.8rem'}} onClick={() => setFile(undefined)}>Não, escolher outra planilha</SecondaryButton>
+    </div>
   )
 
   const UpdateSuccessfulScreen = () => (
-    <>
-      <div style={{ display: 'flex', flexDirection: 'row'}}>
+    <div style={{padding: '2rem'}}>
+      <div>
         <CheckCircle style={{fontSize: 80, color: '#66667B'}}/>
       </div>
-      <p>Sistema atualizado com sucesso!</p>
-      <PrimaryButton onClick={handleSystemUpdate}>Voltar à home</PrimaryButton>
-    </>
+      <p style={{fontSize: '1.5rem', marginTop: '.5rem', color: '#66667B'}}>Sistema atualizado com sucesso!</p>
+      <PrimaryButton style={{marginTop: '1rem'}} onClick={() => router.push('/menu')}>Voltar à home</PrimaryButton>
+    </div>
   )
 
   if (!authorized || !authenticated) {
