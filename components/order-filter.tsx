@@ -15,6 +15,7 @@ export const OrderFilter: FunctionComponent<OrderFilterProps> = ({ selected, onC
         <SimpleCard
             width={18}
             height={18}
+            style={{minWidth: '22rem', maxWidth: '22rem'}}
             contentAlign='left'
             contentFlow='row'
         >
