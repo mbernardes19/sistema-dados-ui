@@ -62,4 +62,9 @@ export default class ApiService {
         const response = await this.httpService.get('/enterprise/orders', { 'Authorization': `Bearer ${accessToken}`}, { enterpriseName })
         return response.data as Order[]
     }
+
+    static async getOrder(accessToken: string, orderNumber: string): Promise<Order> {
+        const response = await this.httpService.get(`/order/${orderNumber}`, { 'Authorization': `Bearer ${accessToken}`})
+        return response.data as Order;
+    }
 }
