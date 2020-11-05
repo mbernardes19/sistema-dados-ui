@@ -27,6 +27,10 @@ export default function ConsultarPedidos({authenticated, authorized, user}) {
       const orders = await ApiService.getUserOrders(CookiesJS.get('user_token'));
       setOrders(orders);
     }
+    if (!authenticated) {
+      router.push('/');
+      return;
+    }
     if (authorized) {
       getAllEnterprises();
     } else {
@@ -95,7 +99,6 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   flex-flow: column wrap;
-  overflow: scroll;
 `
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
