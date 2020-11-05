@@ -91,7 +91,7 @@ export default function Pedido({ authenticated }) {
                              : (<></>)
                         }
                     </div>
-                    <div style={{marginRight: '5rem'}}>
+                    <div style={{marginRight: '6rem'}}>
                         {
                             order ?
                                 (
