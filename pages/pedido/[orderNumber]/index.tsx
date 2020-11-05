@@ -49,7 +49,7 @@ export default function Pedido({ authenticated }) {
         router.push('/')
         }} style={{marginLeft: 'auto', color: '#fff', cursor: 'pointer', paddingTop: '.3rem', paddingRight: '1rem'}}>Sair</a>
         </div>
-        <div style={{maxWidth: '70rem', display: 'flex', justifyContent: 'center', margin: '0 auto'}}>
+        <div style={{maxWidth: '74rem', display: 'flex', justifyContent: 'center', margin: '0 auto'}}>
                 <SimpleCard
                     fluid
                     contentFlow="row"
