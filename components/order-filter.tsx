@@ -13,6 +13,7 @@ type OrderFilterProps = {
 export const OrderFilter: FunctionComponent<OrderFilterProps> = ({ selected, onChange, enterprises }) => {
     return (
         <SimpleCard
+            width={18}
             height={18}
             contentAlign='left'
             contentFlow='row'

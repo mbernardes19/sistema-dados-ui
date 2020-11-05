@@ -10,14 +10,15 @@ type CardProps = {
     contentFlow?: 'row' | 'column',
     clickable?: boolean,
     href?: string,
+    fluid?: boolean,
     onClick?: (event?: any) => void
 }
 
 
-export const SimpleCard: FunctionComponent<CardProps> = ({ width, height, contentFlow, contentAlign, clickable, onClick, href, children }) => {
+export const SimpleCard: FunctionComponent<CardProps> = ({ width, height, contentFlow, fluid, contentAlign, clickable, onClick, href, children }) => {
     
     const NonClickableCardContent = () => (
-        <CardContent style={{display: 'flex', justifyContent: contentAlign, flexDirection: contentFlow, textAlign: contentAlign, padding: '2rem'}}>
+        <CardContent style={{display: 'flex', justifyContent: contentAlign, flexDirection: contentFlow, flexWrap: 'wrap', textAlign: contentAlign, padding: '2rem'}}>
             { children }
         </CardContent>
     );
@@ -28,13 +29,23 @@ export const SimpleCard: FunctionComponent<CardProps> = ({ width, height, conten
         </CardActionArea>
     );
 
-    return (
-        <Card onClick={onClick} raised style={{overflow: 'scroll', minHeight: `${height}rem`, maxHeight: `${height+4}rem`, minWidth: `${width}rem`, maxWidth: `${width+4}rem`, margin: '1rem', cursor: clickable ? 'pointer' : 'default' }}>
-            {
-                clickable ? <ClickableCardContent /> : <NonClickableCardContent />
-            }
-        </Card>
-    );
+        {
+            return !fluid ?
+            (
+                <Card onClick={onClick} raised style={{overflow: 'auto', minHeight: `${height}rem`, maxHeight: `${height+4}rem`, minWidth: `${width}rem`, maxWidth: `${width+4}rem`, margin: '1rem', cursor: clickable ? 'pointer' : 'default' }}>
+                    {
+                        clickable ? <ClickableCardContent /> : <NonClickableCardContent />
+                    }
+                </Card>
+            ) : (
+                <Card onClick={onClick} raised style={{overflow: 'auto', margin: '1rem', cursor: clickable ? 'pointer' : 'default' }}>
+                    {
+                        clickable ? <ClickableCardContent /> : <NonClickableCardContent />
+                    }
+                </Card>
+            )
+        }
+    
 }
 SimpleCard.defaultProps = {
     height: 24,

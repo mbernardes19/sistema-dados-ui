@@ -5,6 +5,7 @@ import Order from "../model/order";
 import User from "../model/user";
 import { addDays } from 'date-fns';
 import Enterprise from "../model/enterprise";
+import { useRouter } from "next/router";
 
 
 type OrderCardProps = {
@@ -13,8 +14,11 @@ type OrderCardProps = {
 }
 
 export const OrderCard: FunctionComponent<OrderCardProps> = ({ order, user }) => {
+    const router = useRouter();
+
     return (
         <SimpleCard
+            width={18}
             height={18}
             contentAlign='left'
             contentFlow='row'
@@ -27,10 +31,16 @@ export const OrderCard: FunctionComponent<OrderCardProps> = ({ order, user }) =>
                 <OrderCardField label="Data de entrega" content={addDays(new Date(order.deliveryDate), 1)} />
                 <OrderCardField label="Status do pedido" content={order.orderStatus} emphasis/>
             </div>
-            <div style={{textAlign: 'right'}}>
+            <div style={{display: 'flex', textAlign: 'right'}}>
                 {
                     user ? <span style={{fontSize: '.8rem'}}>{order.enterprise.name}</span> : <></>
                 }
+                <a 
+                    style={{cursor: 'pointer', color: '#3498DB', textDecoration: 'underline', marginTop: 'auto', width: '4rem', marginBottom: '.8rem'}}
+                    onClick={() => router.push(`/pedido/${order.orderNumber}`)}
+                >
+                    Ver mais
+                </a>
             </div>
         </SimpleCard>
     )
