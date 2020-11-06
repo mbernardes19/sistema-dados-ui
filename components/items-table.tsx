@@ -71,7 +71,7 @@ export const ItemsTable: FunctionComponent<ItemsTableProps> = ({orderedItems}) =
                                 {orderedItem.invoiceNumber}
                             </TableCell>
                             <TableCell>
-                                {orderedItem.invoiceEmissionDate}
+                                {orderedItem.invoiceEmissionDate ? format(addDays(new Date(orderedItem.invoiceEmissionDate), 1), 'dd/MM/yyyy') : ''}
                             </TableCell>
                         </TableRow>  
                     ))
