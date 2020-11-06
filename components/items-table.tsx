@@ -26,12 +26,14 @@ export const ItemsTable: FunctionComponent<ItemsTableProps> = ({orderedItems}) =
                     <TableCell>Número</TableCell>
                     <TableCell>Qtd. solicitada</TableCell>
                     <TableCell>Qtd. pendente</TableCell>
-                    <TableCell>Qtd. liberada</TableCell>
+                    <TableCell>Qtd. faturada</TableCell>
                     <TableCell>Situação</TableCell>
                     <TableCell>Data de entrega</TableCell>
                     <TableCell>Cód. Prod/Serv</TableCell>
                     <TableCell>Nome Prod/Serv</TableCell>
                     <TableCell>Comp. Prod/Serv</TableCell>
+                    <TableCell>Nº da NF</TableCell>
+                    <TableCell>Data emissão NF</TableCell>
                 </TableRow>
             </TableHead>
             <TableBody>
@@ -48,7 +50,7 @@ export const ItemsTable: FunctionComponent<ItemsTableProps> = ({orderedItems}) =
                                 {orderedItem.pendingQuantity}
                             </TableCell>
                             <TableCell>
-                                {orderedItem.availableQuantity}
+                                {orderedItem.billedQuantity}
                             </TableCell>
                             <TableCell>
                                 {orderedItem.status}
@@ -64,6 +66,12 @@ export const ItemsTable: FunctionComponent<ItemsTableProps> = ({orderedItems}) =
                             </TableCell>
                             <TableCell>
                                 {orderedItem.prodServInfo.complement}
+                            </TableCell>
+                            <TableCell>
+                                {orderedItem.invoiceNumber}
+                            </TableCell>
+                            <TableCell>
+                                {orderedItem.invoiceEmissionDate}
                             </TableCell>
                         </TableRow>  
                     ))
