@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import Order from "../../../model/order";
 import ApiService from "../../../services/api";
 import CookiesJS from 'js-cookie';
-import { AccordionSummary, Accordion, AccordionDetails } from "@material-ui/core";
+import { AccordionSummary, Accordion, AccordionDetails, Grid } from "@material-ui/core";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { ItemsTable } from '../../../components/items-table';
 import { ArrowBack } from "@material-ui/icons";
@@ -55,19 +55,20 @@ export default function Pedido({ authenticated }) {
                     contentFlow="row"
                     contentAlign="left"
                 >
-                    <div style={{marginRight: '5rem'}}>
-                        {
-                            order ?
-                                (
-                                    <>
-                                        <OrderCardField label="Cliente" content={order.enterprise.name} />
-                                        <OrderCardField label="Nº do pedido" content={order.orderNumber} />
-                                    </>
-                                )
-                             : (<></>)
-                        }
-                    </div>
-                    <div style={{marginRight: '5rem'}}>
+                    <Grid container spacing={5}>
+                        <Grid item xs={12} sm={5}>
+                            {
+                                order ?
+                                    (
+                                        <>
+                                            <OrderCardField label="Cliente" content={order.enterprise.name} />
+                                            <OrderCardField label="Nº do pedido" content={order.orderNumber} />
+                                        </>
+                                    )
+                                : (<></>)
+                            }
+                        </Grid>
+                    <Grid item xs={12} sm={3}>
                         {
                             order ?
                                 (
@@ -78,8 +79,8 @@ export default function Pedido({ authenticated }) {
                                 )
                              : (<></>)
                         }
-                    </div>
-                    <div style={{marginRight: '5rem'}}>
+                    </Grid>
+                    <Grid item xs={12} sm={4}>
                         {
                             order ?
                                 (
@@ -90,8 +91,8 @@ export default function Pedido({ authenticated }) {
                                 )
                              : (<></>)
                         }
-                    </div>
-                    <div>
+                    </Grid>
+                    <Grid container item spacing={0} xs={12}>
                         {
                             order ?
                                 (
@@ -101,8 +102,8 @@ export default function Pedido({ authenticated }) {
                                 )
                              : (<></>)
                         }
-                    </div>
-                    <div style={{width: '100%'}}>
+                    </Grid>
+                    <Grid item xs={12}>
                         {
                             order ?
                             (
@@ -120,7 +121,8 @@ export default function Pedido({ authenticated }) {
                             )
                             : (<></>)
                         }
-                    </div>
+                    </Grid>
+                    </Grid>
                 </SimpleCard>
         </div>
         </>
