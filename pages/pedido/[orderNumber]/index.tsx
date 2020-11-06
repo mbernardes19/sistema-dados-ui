@@ -49,7 +49,7 @@ export default function Pedido({ authenticated }) {
         router.push('/')
         }} style={{marginLeft: 'auto', color: '#fff', cursor: 'pointer', paddingTop: '.3rem', paddingRight: '1rem'}}>Sair</a>
         </div>
-        <div style={{maxWidth: '74rem', display: 'flex', justifyContent: 'center', margin: '0 auto'}}>
+        <div style={{maxWidth: '65rem', display: 'flex', justifyContent: 'center', margin: '0 auto'}}>
                 <SimpleCard
                     fluid
                     contentFlow="row"
@@ -73,7 +73,7 @@ export default function Pedido({ authenticated }) {
                                 (
                                     <>
                                         <OrderCardField label="Nº da OC Item" content={order.OcItemNumber} />
-                                        <OrderCardField label="Nº doc. fatur." content={order.billDocNumber ? order.billDocNumber : '-'} />
+                                        <OrderCardField label="Previsão de faturamento" content={order.billingPredictionDate? order.billDocNumber : '-'} />
                                     </>
                                 )
                              : (<></>)
@@ -86,18 +86,6 @@ export default function Pedido({ authenticated }) {
                                     <>
                                         <OrderCardField label="Data de emissão" content={renderDate(order.emissionDate)} />
                                         <OrderCardField label="Data de entrega" content={renderDate(order.deliveryDate)} />
-                                    </>
-                                )
-                             : (<></>)
-                        }
-                    </div>
-                    <div style={{marginRight: '6rem'}}>
-                        {
-                            order ?
-                                (
-                                    <>
-                                        <OrderCardField label="Previsão de faturamento" content={order.billingPredictionDate? order.billDocNumber : '-'} />
-                                        <OrderCardField label="Data de faturamento" content={order.billingDate ? renderDate(order.billingDate) : '-'} />
                                     </>
                                 )
                              : (<></>)
@@ -138,12 +126,6 @@ export default function Pedido({ authenticated }) {
         </>
     )
 }
-
-// export async function getServerSideProps(context) {
-//     return {
-//       props: {}, // will be passed to the page component as props
-//     };
-//   }
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
     let response;
