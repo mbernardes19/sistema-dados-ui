@@ -56,7 +56,7 @@ export default function Pedido({ authenticated }) {
                     contentAlign="left"
                 >
                     <Grid container spacing={5}>
-                        <Grid item xs={12} sm={5}>
+                        <Grid style={{paddingBottom: 0}} item xs={12} sm={5}>
                             {
                                 order ?
                                     (
@@ -68,7 +68,7 @@ export default function Pedido({ authenticated }) {
                                 : (<></>)
                             }
                         </Grid>
-                    <Grid item xs={12} sm={3}>
+                    <Grid style={{paddingBottom: 0}} item xs={12} sm={3}>
                         {
                             order ?
                                 (
@@ -80,7 +80,7 @@ export default function Pedido({ authenticated }) {
                              : (<></>)
                         }
                     </Grid>
-                    <Grid item xs={12} sm={4}>
+                    <Grid style={{paddingBottom: 0}} item xs={12} sm={4}>
                         {
                             order ?
                                 (
@@ -92,7 +92,7 @@ export default function Pedido({ authenticated }) {
                              : (<></>)
                         }
                     </Grid>
-                    <Grid container item spacing={0} xs={12}>
+                    <Grid style={{paddingBottom: 0}} item xs={12}>
                         {
                             order ?
                                 (
