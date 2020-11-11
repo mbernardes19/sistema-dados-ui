@@ -33,18 +33,27 @@ export default function AtualizarDados({ authorized, authenticated }) {
   const handleSystemUpdate = async () => {
     try {
       setLoading(true);
-      const resp = await ApiService.updateSystemData(file);
-      if (resp.status === 201 || resp.status === 200) {
-        setLoading(false);
-        setIsUpdateSuccessful(true);
+      const response = await ApiService.checkIfSpreadsheetIsValid(file);
+      if (response.status) {
+        await ApiService.updateSystemData(file)
+      const intervalId = setInterval(async () => {
+        try {
+          const res = await ApiService.checkIfUpdateIsDone();
+          console.log(res);
+          if (res && res === 'done')
+            clearInterval(intervalId);
+            setLoading(false);
+            setIsUpdateSuccessful(true);
+        } catch (err) {
+          console.log(err)
+        }
+      }, 32000)
       } else {
-        setLoading(false);
-        setIsUpdateSuccessful(false);
+        throw new Error('Invalid spreadsheet format')
       }
     } catch (err) {
       setLoading(false);
       setIsUpdateSuccessful(false);
-
     }
   }
 
@@ -54,6 +63,7 @@ export default function AtualizarDados({ authorized, authenticated }) {
         <CircularProgress size='3rem' style={{color: '#66667B'}} />
       </div>
       <p>Atualizando o sistema...</p>
+      <p>Isso pode levar alguns minutos. Por favor, não atualize e nem feche a página durante o processo.</p>
     </div>
   )
 
