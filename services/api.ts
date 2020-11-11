@@ -1,6 +1,8 @@
 import HttpService from "./http";
 import Enterprise from "../model/enterprise";
 import Order from "../model/order";
+import { AxiosResponse } from "axios";
+import { PaginationResponse } from "./interfaces/pagination-response";
 
 type LoginCredentials = {
     email: string,
@@ -22,9 +24,24 @@ export default class ApiService {
         const bodyFormData = new FormData();
         bodyFormData.append('file', file);
 
-        return await this.httpService.post('/data', bodyFormData, {
+        return await this.httpService.post(`/data/start`, bodyFormData, {
             headers: {'Content-Type': 'multipart/form-data'}
         })
+    }
+
+    static async checkIfSpreadsheetIsValid(file: File) {
+        const bodyFormData = new FormData();
+        bodyFormData.append('file', file);
+
+        const response = await this.httpService.post(`/data/check`, bodyFormData, {
+            headers: {'Content-Type': 'multipart/form-data'}
+        })
+        return response.data;
+    }
+
+    static async checkIfUpdateIsDone(): Promise<string> {
+        const response = await this.httpService.get('/data/status')
+        return response.data;
     }
 
     static async login(loginCredentials: LoginCredentials) {
@@ -53,14 +70,16 @@ export default class ApiService {
         return response.data as Enterprise[]
     }
 
-    static async getUserOrders(accessToken: string): Promise<Order[]> {
-        const response = await this.httpService.get('/user/orders', { 'Authorization': `Bearer ${accessToken}`})
-        return response.data as Order[]
+    static async getUserOrders(accessToken: string, page?: number): Promise<PaginationResponse<Order>> {
+        page = page ? page : 1;
+        const response = await this.httpService.get(`/user/orders?page=${page}&limit=100`, { 'Authorization': `Bearer ${accessToken}`})
+        return response.data;
     }
 
-    static async getEnterpriseOrders(accessToken: string, enterpriseName?: string): Promise<Order[]> {
-        const response = await this.httpService.get('/enterprise/orders', { 'Authorization': `Bearer ${accessToken}`}, { enterpriseName })
-        return response.data as Order[]
+    static async getEnterpriseOrders(accessToken: string, enterpriseName?: string, page?: number): Promise<PaginationResponse<Order>> {
+        page = page ? page : 1;
+        const response = await this.httpService.get(`/enterprise/orders?page=${page}&limit=50`, { 'Authorization': `Bearer ${accessToken}`}, { enterpriseName })
+        return response.data;
     }
 
     static async getOrder(accessToken: string, orderNumber: string): Promise<Order> {

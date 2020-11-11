@@ -10,12 +10,18 @@ import { useRouter } from "next/router"
 import { ArrowBack } from "@material-ui/icons"
 import { OrderFilter } from "../components/order-filter";
 import Enterprise from "../model/enterprise";
+import { CircularProgress, makeStyles } from "@material-ui/core";
+import Pagination from '@material-ui/lab/Pagination';
+import PaginationItem from '@material-ui/lab/PaginationItem';
 
 
 export default function ConsultarPedidos({authenticated, authorized, user}) {
   const [orders, setOrders] = useState<Order[]>([]);
   const [enterprises, setEnterprises] = useState<Enterprise[]>([])
   const [selectedEnterprise, setSelectedEnterprise] = useState<Enterprise>();
+  const [loading, setLoading] = useState<boolean>(false)
+  const [pages, setPages] = useState<number>(0);
+  const [currentPage, setCurrentpage] = useState<number>(1);
   const router = useRouter();
 
   useEffect(() => {
@@ -24,8 +30,9 @@ export default function ConsultarPedidos({authenticated, authorized, user}) {
       setEnterprises(allEnterprises)
     }
     async function getUserOrders() {
-      const orders = await ApiService.getUserOrders(CookiesJS.get('user_token'));
-      setOrders(orders);
+      const response = await ApiService.getUserOrders(CookiesJS.get('user_token'));
+      setOrders(response.items);
+      setPages(response.meta.totalPages)
     }
     if (!authenticated) {
       router.push('/');
@@ -41,13 +48,16 @@ export default function ConsultarPedidos({authenticated, authorized, user}) {
 
   useEffect(() => {
     console.log(selectedEnterprise)
+    setLoading(true)
     async function getOrdersFromEnterprise() {
       if (selectedEnterprise as any === 'Todas as empresas') {
-      const orders = await ApiService.getEnterpriseOrders(CookiesJS.get('user_token'))
-      setOrders(orders.sort((a, b) => (a.enterprise.name < b.enterprise.name) ? -1 : (a.enterprise.name > b.enterprise.name) ? 1 : 0))
+      const response = await ApiService.getEnterpriseOrders(CookiesJS.get('user_token'))
+      setOrders(response.items);
+      setPages(response.meta.totalPages)
     } else {
-      const orders = await ApiService.getEnterpriseOrders(CookiesJS.get('user_token'), selectedEnterprise as any)
-      setOrders(orders);
+      const response = await ApiService.getEnterpriseOrders(CookiesJS.get('user_token'), selectedEnterprise as any)
+      setOrders(response.items);
+      setPages(response.meta.totalPages)
     }
     }
     if (selectedEnterprise) {
@@ -55,8 +65,41 @@ export default function ConsultarPedidos({authenticated, authorized, user}) {
     }
   }, [selectedEnterprise])
 
+  useEffect(() => {
+    setLoading(false);
+  }, [orders])
+
+  const useStyles = makeStyles({
+    root: {
+      color: 'white',
+      "& .MuiPaginationItem-page.Mui-selected": {
+        color: 'white',
+        backgroundColor: 'red'
+      }
+    },
+    selected: {
+      backgroundColor: '#666666 !important'
+    }
+  });
+
   const handleChange = (event: React.ChangeEvent<{value: Enterprise}>) => {
     setSelectedEnterprise(event.target.value);
+  }
+
+  const handlePageChange = async (event, value) => {
+    setCurrentpage(value);
+    if (authorized) {
+      if (selectedEnterprise as any === 'Todas as empresas') {
+        const response = await ApiService.getEnterpriseOrders(CookiesJS.get('user_token'), null, value)
+        setOrders(response.items)
+      } else {
+        const response = await ApiService.getEnterpriseOrders(CookiesJS.get('user_token'), selectedEnterprise as any, value)
+        setOrders(response.items)
+      }
+    } else if (authenticated) {
+      const response = await ApiService.getUserOrders(CookiesJS.get('user_token'), value);
+      setOrders(response.items);
+    }
   }
 
   if (!authenticated) {
@@ -64,6 +107,8 @@ export default function ConsultarPedidos({authenticated, authorized, user}) {
       <div></div>
     )
   }
+
+  const classes = useStyles();
 
     return (
       <>
@@ -83,10 +128,24 @@ export default function ConsultarPedidos({authenticated, authorized, user}) {
           <div style={{width: '100%', display: 'flex', flexFlow: 'column', justifyContent
           : 'center', alignItems: 'center', margin: '0 auto'}}>
           {
+            loading ? <CircularProgress /> :
             orders && orders.map(order => (
               <OrderCard order={order} />
             ))
           }
+          <Pagination
+            count={pages}
+            page={currentPage}
+            onChange={handlePageChange}
+            renderItem={(item) => (
+              <PaginationItem
+                component={'li'}
+                page={currentPage}
+                classes={{root: classes.root, selected: classes.selected}}
+                {...item}
+              />
+            )}
+          />
           </div>
         </Container>
       </>
