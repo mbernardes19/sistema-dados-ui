@@ -13,5 +13,6 @@ export default interface OrderedItem {
     deliveryDate: Date;
     invoiceNumber: string;
     invoiceEmissionDate: Date;
-    order?: Order
+    order?: Order,
+    collectNumber: string
 }

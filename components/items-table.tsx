@@ -34,6 +34,7 @@ export const ItemsTable: FunctionComponent<ItemsTableProps> = ({orderedItems}) =
                     <TableCell>Comp. Prod/Serv</TableCell>
                     <TableCell>Nº da NF</TableCell>
                     <TableCell>Data emissão NF</TableCell>
+                    <TableCell>Nº de coleta</TableCell>
                 </TableRow>
             </TableHead>
             <TableBody>
@@ -72,6 +73,9 @@ export const ItemsTable: FunctionComponent<ItemsTableProps> = ({orderedItems}) =
                             </TableCell>
                             <TableCell>
                                 {orderedItem.invoiceEmissionDate ? format(addDays(new Date(orderedItem.invoiceEmissionDate), 1), 'dd/MM/yyyy') : ''}
+                            </TableCell>
+                            <TableCell>
+                                {orderedItem.collectNumber}
                             </TableCell>
                         </TableRow>  
                     ))
