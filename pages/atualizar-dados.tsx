@@ -40,10 +40,11 @@ export default function AtualizarDados({ authorized, authenticated }) {
         try {
           const res = await ApiService.checkIfUpdateIsDone();
           console.log(res);
-          if (res && res === 'done')
+          if (res && res === 'done') {
             clearInterval(intervalId);
             setLoading(false);
             setIsUpdateSuccessful(true);
+          }
         } catch (err) {
           console.log(err)
         }
