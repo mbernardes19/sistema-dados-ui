@@ -111,8 +111,8 @@ export default function ConsultarPedidos({authenticated, authorized, user}) {
   const classes = useStyles();
 
     return (
-      <>
-        <div style={{display: 'flex', marginBottom: '1rem', flexDirection: 'row'}}>
+      <div style={{width: '100%'}}>
+        <div style={{display: 'flex', width: '100%', marginBottom: '1rem', flexDirection: 'row'}}>
         <a onClick={() => router.back()}>
           <ArrowBack style={{fontSize: 30, paddingLeft: '.3rem', color: 'white' }} />
         </a>
@@ -133,6 +133,7 @@ export default function ConsultarPedidos({authenticated, authorized, user}) {
               <OrderCard order={order} />
             ))
           }
+          </div>
           <Pagination
             count={pages}
             page={currentPage}
@@ -146,9 +147,8 @@ export default function ConsultarPedidos({authenticated, authorized, user}) {
               />
             )}
           />
-          </div>
         </Container>
-      </>
+      </div>
       )
     }
     
