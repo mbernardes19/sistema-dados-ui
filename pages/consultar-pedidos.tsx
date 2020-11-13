@@ -125,7 +125,7 @@ export default function ConsultarPedidos({authenticated, authorized, user}) {
           {
             authorized ? <OrderFilter selected={selectedEnterprise} onChange={handleChange} enterprises={enterprises} /> : <></>
           }
-          <div style={{width: '100%', display: 'flex', flexFlow: 'column', justifyContent
+          <div style={{width: '100%', display: 'flex', flexFlow: 'row wrap', justifyContent
           : 'center', alignItems: 'center', margin: '0 auto'}}>
           {
             loading ? <CircularProgress /> :
