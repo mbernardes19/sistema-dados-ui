@@ -2,7 +2,7 @@ import TextField, { BaseTextFieldProps, TextFieldProps, OutlinedTextFieldProps }
 import { FunctionComponent } from 'react';
 import { makeStyles } from "@material-ui/core/styles";
 
-interface TextInputProps extends BaseTextFieldProps {
+interface TextInputProps extends OutlinedTextFieldProps {
     inputRef?: (instance?: any) => void;
     label: string;
     name?: string;
@@ -34,7 +34,7 @@ const useStyles = makeStyles({
     }
   });
 
-export const TextInput: FunctionComponent<TextInputProps> = ({ inputRef, name, label, type, helperText, error=false }) => {
+export const TextInput: FunctionComponent<TextInputProps> = ({ inputRef, name, label, type, helperText, error=false, variant='outlined' }) => {
     const classes = useStyles();
 
     return (
@@ -47,7 +47,7 @@ export const TextInput: FunctionComponent<TextInputProps> = ({ inputRef, name, l
         label={label}
         type={type}
         fullWidth
-        variant='outlined'
+        variant={variant}
         style={{ color: '#9F9FB0'}}
     />
     )
