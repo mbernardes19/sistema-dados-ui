@@ -24,6 +24,13 @@ export const OrderCardField: FunctionComponent<OrderCardFieldProps> = ({label, c
             case 'Faturado':
                 color = '#27C200'
                 break;
+            case 'Atendido':
+                formattedContent = 'Em faturamento'
+                color = '#a2db12'
+                break;
+            case 'Cancelado':
+                color = '#d40b0b'
+                break;
             case 'Parcialmente faturado':
                 color = '#156b00'
                 break;
