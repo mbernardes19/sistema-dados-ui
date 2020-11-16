@@ -73,7 +73,7 @@ export default function Pedido({ authenticated }) {
                             order ?
                                 (
                                     <>
-                                        <OrderCardField label="Nº da OC Item" content={order.OcItemNumber} />
+                                        <OrderCardField label="Nº da OC Item" content={order.OcItemNumber ? order.OcItemNumber : '-'} />
                                         <OrderCardField label="Previsão de faturamento" content={order.billingPredictionDate? order.billDocNumber : '-'} />
                                     </>
                                 )
