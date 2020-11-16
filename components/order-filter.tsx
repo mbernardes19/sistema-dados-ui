@@ -13,9 +13,8 @@ type OrderFilterProps = {
 export const OrderFilter: FunctionComponent<OrderFilterProps> = ({ selected, onChange, enterprises }) => {
     return (
         <SimpleCard
-            width={18}
-            height={18}
-            style={{minWidth: '22rem', maxWidth: '22rem'}}
+            fluid
+            style={{minHeight: '18rem', minWidth: '17rem', maxHeight: '20rem', maxWidth: '22rem'}}
             contentAlign='left'
             contentFlow='row'
         >

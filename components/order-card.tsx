@@ -5,21 +5,24 @@ import Order from "../model/order";
 import User from "../model/user";
 import { addDays } from 'date-fns';
 import { useRouter } from "next/router";
-
+import styled from 'styled-components';
 
 type OrderCardProps = {
     order: Order;
     user?: User;
 }
 
+
+
 export const OrderCard: FunctionComponent<OrderCardProps> = ({ order, user }) => {
     const router = useRouter();
 
     return (
         <SimpleCard
-            style={{minHeight: '10rem', minWidth: '22rem', maxWidth: '22rem'}}
+            style={{minHeight: '23rem', maxHeight: '23rem', minWidth: '22rem', maxWidth: '22rem'}}
             contentAlign='left'
             contentFlow='row'
+            scroll
         >
             <div style={{width: '100%'}}>
                 {
