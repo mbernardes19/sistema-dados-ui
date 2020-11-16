@@ -12,11 +12,12 @@ type CardProps = {
     href?: string,
     fluid?: boolean,
     style?: CSSProperties,
-    onClick?: (event?: any) => void
+    onClick?: (event?: any) => void,
+    scroll?: boolean
 }
 
 
-export const SimpleCard: FunctionComponent<CardProps> = ({ width, height, contentFlow, fluid, contentAlign, clickable, style, onClick, href, children }) => {
+export const SimpleCard: FunctionComponent<CardProps> = ({ width, height, contentFlow, fluid, contentAlign, scroll, clickable, style, onClick, href, children }) => {
     
     const NonClickableCardContent = () => (
         <CardContent style={{display: 'flex', justifyContent: contentAlign, flexDirection: contentFlow, flexWrap: 'wrap', textAlign: contentAlign, padding: '2rem'}}>
@@ -33,13 +34,13 @@ export const SimpleCard: FunctionComponent<CardProps> = ({ width, height, conten
         {
             return !fluid ?
             (
-                <Card onClick={onClick} raised style={{overflow: 'auto', minHeight: `${height}rem`, maxHeight: `${height+4}rem`, minWidth: `${width}rem`, maxWidth: `${width+4}rem`, margin: '1rem', cursor: clickable ? 'pointer' : 'default', ...style }}>
+                <Card onClick={onClick} raised style={{overflow: scroll ? 'scroll' : '', minHeight: `${height}rem`, maxHeight: `${height+4}rem`, minWidth: `${width}rem`, maxWidth: `${width+4}rem`, margin: '1rem', cursor: clickable ? 'pointer' : 'default', ...style }}>
                     {
                         clickable ? <ClickableCardContent /> : <NonClickableCardContent />
                     }
                 </Card>
             ) : (
-                <Card onClick={onClick} raised style={{overflow: 'auto', margin: '1rem', cursor: clickable ? 'pointer' : 'default', ...style }}>
+                <Card onClick={onClick} raised style={{overflow: scroll ? 'scroll' : '', margin: '1rem', cursor: clickable ? 'pointer' : 'default', ...style }}>
                     {
                         clickable ? <ClickableCardContent /> : <NonClickableCardContent />
                     }
