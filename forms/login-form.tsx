@@ -37,8 +37,8 @@ export const LoginForm: FunctionComponent<FormProps> = () => {
             <h1 style={{color: '#66667B', marginTop:'.5rem', fontWeight: 400, marginBottom: '2rem'}}>Acesse o sistema</h1>
             <div style={{display: 'grid', gridRowGap: '1rem'}}>
                 { error ? <span style={{color: '#f44336'}}>Usuário ou senha incorretos</span> : <></> }
-                <TextInput error={errors.email ? true : false} helperText={errors.email ? "Email em formato inválido" : ""} name='email' label='Email' inputRef={register({ pattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/})} />
-                <TextInput name='password' label='Senha' type='password' inputRef={register} />
+                <TextInput variant="outlined" error={errors.email ? true : false} helperText={errors.email ? "Email em formato inválido" : ""} name='email' label='Email' inputRef={register({ pattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/})} />
+                <TextInput variant="outlined" name='password' label='Senha' type='password' inputRef={register} />
             </div>
             <div style={{display: 'grid', gridRowGap: '.5rem', marginTop: '2rem', marginBottom: '2rem', width: '100%'}}>
                 <PrimaryButton onClick={handleSubmit(onSubmit)}>Fazer login</PrimaryButton>
