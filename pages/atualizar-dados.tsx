@@ -11,11 +11,13 @@ import { useRouter, Router } from 'next/router';
 import { GetServerSideProps } from 'next';
 import Cookies from 'cookies'
 import CookiesJS from 'js-cookie';
+import ErrorIcon from '@material-ui/icons/Error';
 
 
 export default function AtualizarDados({ authorized, authenticated }) {
   const [file, setFile] = useState<File | undefined>();
   const [isUpdateSuccessful, setIsUpdateSuccessful] = useState<boolean>(false);
+  const [updateFailed, setUpdateFailed] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter()
 
@@ -55,6 +57,7 @@ export default function AtualizarDados({ authorized, authenticated }) {
     } catch (err) {
       setLoading(false);
       setIsUpdateSuccessful(false);
+      setUpdateFailed(true);
     }
   }
 
@@ -100,6 +103,16 @@ export default function AtualizarDados({ authorized, authenticated }) {
     </div>
   )
 
+  const UpdateFailedScreen = () => (
+    <div style={{padding: '2rem'}}>
+      <div>
+        <ErrorIcon style={{fontSize: 80, color: '#66667B'}}/>
+      </div>
+      <p style={{color: '#66667B', marginTop: '2rem', marginBottom: '2.3rem'}}>Ocorreu um erro ao tentar atualizar o sistema. Certifique-se de estar usando uma planilha com as colunas esperadas.</p>
+      <PrimaryButton style={{marginTop: '1rem'}} onClick={() => setUpdateFailed(false)}>Voltar</PrimaryButton>
+    </div>
+  )
+
   if (!authorized || !authenticated) {
     return (
       <div></div>
@@ -124,7 +137,7 @@ export default function AtualizarDados({ authorized, authenticated }) {
             isUpdateSuccessful ?
               <UpdateSuccessfulScreen />
             :
-              file === undefined && !isUpdateSuccessful ? <UploadFileScreen /> : <ConfirmUploadScreen />
+              file ? updateFailed ? <UpdateFailedScreen /> : <ConfirmUploadScreen /> : <UploadFileScreen />
           }
         </SimpleCard>
     </Container>
