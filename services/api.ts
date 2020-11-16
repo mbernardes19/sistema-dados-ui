@@ -72,7 +72,7 @@ export default class ApiService {
 
     static async getUserOrders(accessToken: string, page?: number): Promise<PaginationResponse<Order>> {
         page = page ? page : 1;
-        const response = await this.httpService.get(`/user/orders?page=${page}&limit=100`, { 'Authorization': `Bearer ${accessToken}`})
+        const response = await this.httpService.get(`/user/orders?page=${page}&limit=50`, { 'Authorization': `Bearer ${accessToken}`})
         return response.data;
     }
 
