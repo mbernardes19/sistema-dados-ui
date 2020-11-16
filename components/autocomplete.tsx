@@ -37,7 +37,7 @@ const useStylesInput = makeStyles({
       "& .MuiInputLabel-outlined.Mui-error": {
         color: "#F44336"
       },
-      "& .MuiOutlinedInput-notchedOutline": {
+      "& .MuiOutlinedInput-input": {
         backgroundColor: '#F2F2F2'
       }
     }
@@ -50,6 +50,9 @@ const useStylesInput = makeStyles({
       },
       "& .MuiAutocomplete-root.MuiAutocomplete-hasClearIcon .MuiAutocomplete-hasPopupIcon": {
         backgroundColor: '#F2F2F2'
+      },
+      "& .MuiAutocomplete-inputRoot": {
+        backgroundColor: '#F2F2F2'
       }
     }
   });
@@ -61,19 +64,19 @@ export const AutoComplete: FunctionComponent<AutoCompleteProps> = ({options, ren
     return (
         <Autocomplete
             id='autocomplete'
+            className={classesAutocomplete.root}
             value={value}
             inputValue={inputValue}
             onChange={onChange}
             onInputChange={onInputChange}
             filterOptions={filterOptions}
             selectOnFocus
-            clearOnBlur
             handleHomeEndKeys
             freeSolo
             renderOption={renderOption}
             options={options}
             getOptionLabel={getOptionLabel}
-            renderInput={(params) => <TextField className={classesInput.root} {...params} value={inputValue} error={error} helperText={helperText} name={name} inputRef={inputRef} label={label} variant='outlined' />}
+            renderInput={(params) => <TextField inputRef={inputRef} name={name} error={error} helperText={helperText} className={classesInput.root} {...params} label={label} variant='outlined' />}
             style={style}
         />
     )

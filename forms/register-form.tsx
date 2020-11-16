@@ -9,8 +9,8 @@ import { UserContext } from "../services/context/user-context-provider";
 import { AutoComplete } from "../components/autocomplete";
 import Enterprise from "../model/enterprise";
 import Cookies from 'js-cookie';
-import { MenuItem } from "@material-ui/core";
-import { createFilterOptions } from "@material-ui/lab/Autocomplete";
+import { MenuItem, TextField } from "@material-ui/core";
+import Autocomplete, { createFilterOptions } from "@material-ui/lab/Autocomplete";
 import { AxiosResponse } from "axios";
 
 type FormProps = {
@@ -23,7 +23,7 @@ export const RegisterForm: FunctionComponent<FormProps> = () => {
     const [error, setError] = useState<boolean>(false);
     const {user, storeUser} = useContext(UserContext);
     const [enterprises, setEnterprises] = useState<EnterpriseOptionType[]>();
-    const [enterpriseOption, setEnterpriseOption] = useState<EnterpriseOptionType>({enterprise: {name: ''}})
+    const [enterpriseOption, setEnterpriseOption] = useState<EnterpriseOptionType | null>(null);
     const [errorMessage, setErrorMessage] = useState<string>('');
     const router = useRouter();
     const [autoCompleteInputValue, setAutoCompleteInputValue] = useState<string>('')
@@ -78,15 +78,15 @@ export const RegisterForm: FunctionComponent<FormProps> = () => {
             <h1 style={{color: '#66667B', marginTop:'.5rem', fontWeight: 400, marginBottom: '2rem'}}>Cadastre um usuário</h1>
             <div style={{display: 'grid', gridRowGap: '1rem'}}>
                 { error ? <span style={{color: '#f44336'}}>{errorMessage}</span> : <></> }
-                <TextInput error={errors.name ? true : false} helperText={errors.name ? errors.name.message : ''} name='name' label='Nome' inputRef={register({required: {value: true, message: 'Campo obrigatório'}})} />
-                <TextInput error={errors.email ? true : false} helperText={errors.email ? errors.email.message : ''} name='email' label='Email' inputRef={register({ required: {value: true, message: 'Campo obrigatório'}, pattern: {value: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, message: 'Email em formato inválido'}})} />
+                <TextInput variant='outlined' error={errors.name ? true : false} helperText={errors.name ? errors.name.message : ''} name='name' label='Nome' inputRef={register({required: {value: true, message: 'Campo obrigatório'}})} />
+                <TextInput variant='outlined' error={errors.email ? true : false} helperText={errors.email ? errors.email.message : ''} name='email' label='Email' inputRef={register({ required: {value: true, message: 'Campo obrigatório'}, pattern: {value: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, message: 'Email em formato inválido'}})} />
                 <AutoComplete
+                    label="Empresa"
                     name="enterpriseName"
-                    inputRef={register({required: {value: true, message: 'Campo obrigatório'}})}
                     error={errors.enterpriseName ? true : false}
                     helperText={errors.enterpriseName ? errors.enterpriseName.message : ''}
+                    inputRef={register({required: {value: true, message: 'Campo obrigatório'}})}
                     value={enterpriseOption}
-                    inputValue={autoCompleteInputValue}
                     onChange={(event, newValue) => {
                         if (typeof newValue === 'string') {
                             setEnterpriseOption({
@@ -94,50 +94,39 @@ export const RegisterForm: FunctionComponent<FormProps> = () => {
                                     name: newValue
                                 }
                             })
-                        } else if (newValue && newValue.inputValue) {
+                        } else if (newValue && (newValue as EnterpriseOptionType).inputValue) {
                             setEnterpriseOption({
                                 enterprise: {
-                                    name: newValue.inputValue
+                                    name: (newValue as EnterpriseOptionType).inputValue
                                 }
                             })
-                        } else {
-                            setEnterpriseOption(newValue)
                         }
                     }}
-                    onInputChange={(event, value) => {
-                        setEnterpriseOption({ enterprise: {name: value}})
-                        setAutoCompleteInputValue(value)
-                    }}
                     filterOptions={(options, params) => {
-                        const filtered = filter(options, params);
+                        const filtered = filter(options as EnterpriseOptionType[], params);
                         if (params.inputValue !== '') {
                             filtered.push({
                                 inputValue: params.inputValue,
                                 enterprise: {
-                                    name: `Criar empresa '${params.inputValue}'`
+                                    name: `Criar empresa "${params.inputValue}"`
                                 }
                             })
                         }
-
                         return filtered;
                     }}
-                    label="Empresa"
                     options={enterprises}
-                    getOptionLabel={option => {
+                    getOptionLabel={(option) => {
                         if (typeof option === 'string') {
-                            return option
+                            return option;
                         }
-
-                        if (option.inputValue) {
-                            return option.inputValue;
+                        if ((option as EnterpriseOptionType).inputValue) {
+                            return (option as EnterpriseOptionType).inputValue;
                         }
-
-                        return option.enterprise.name;
+                        return (option as EnterpriseOptionType).enterprise.name;
                     }}
-                    renderOption={(option) => option.enterprise.name}
-                    style={{backgroundColor: '#F2F2F2'}}
+                    renderOption={(option) => (option as EnterpriseOptionType).enterprise.name}
                 />
-                <TextInput error={errors.password ? true : false} name='password' helperText={errors.password ? errors.password.message : ''} label='Senha' type='password' inputRef={register({required: {value: true, message: 'Campo obrigatório'}})} />
+                <TextInput variant='outlined' error={errors.password ? true : false} name='password' helperText={errors.password ? errors.password.message : ''} label='Senha' type='password' inputRef={register({required: {value: true, message: 'Campo obrigatório'}})} />
             </div>
             <div style={{display: 'grid', gridRowGap: '.5rem', marginTop: '2rem', marginBottom: '2rem', width: '100%'}}>
                 {console.log(errors)}
