@@ -4,7 +4,7 @@ export default class HttpService {
     private baseUrl: string;
 
     constructor() {
-        this.baseUrl = process.env.NODE_ENV === 'production' ? 'https://www.plasser.iguacuservicos.com.br' : 'http://localhost:5000';
+        this.baseUrl = process.env.NODE_ENV === 'production' ? 'https://www.api.plasser.iguacuservicos.com.br' : 'http://localhost:5000';
     }
 
     async get(path: string, headers?: any, params?: any) {
