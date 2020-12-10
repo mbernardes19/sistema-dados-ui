@@ -24,7 +24,7 @@ export const LoginForm: FunctionComponent<FormProps> = () => {
         try {
             const response = await ApiService.login({ email: data.email, password: data.password });
             const resp2 = await ApiService.getUser(response.data.access_token)
-            Cookies.set('user_token', response.data.access_token)
+            Cookies.set('user_token', response.data.access_token, { sameSite: 'None', secure: true })
             router.push('/menu');
         } catch (err) {
             setError(true);
